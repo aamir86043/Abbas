@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#eaf1fb">
+  <title>Saathi AI</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body data-state="ready">
+  <svg width="0" height="0" style="position:absolute"><symbol id="eye" viewBox="0 0 64 48"><path d="M2 24C10 10 22 4 32 4s22 6 30 20c-8 14-20 20-30 20S10 38 2 24z" fill="#0b3a8f"/><circle cx="32" cy="24" r="12" fill="#fff"/><circle cx="32" cy="24" r="6" fill="#1f6bff"/></symbol></svg>
+
+  <!-- Splash -->
+  <section id="splash" aria-label="Welcome">
+    <svg class="eye" aria-hidden="true"><use href="#eye"/></svg>
+    <h1>Saathi AI</h1>
+    <p class="hero">Your eyes,<br>your companion</p>
+    <p class="sub">AI Powered Assistive Camera<br>for a Better, Safer Journey</p>
+    <button id="btnSplash" class="big primary">Get Started →</button>
+    <p class="lang">Language: English</p>
+  </section>
+
+  <header class="top">
+    <div class="brand"><svg class="eye sm" aria-hidden="true"><use href="#eye"/></svg><h1>Saathi AI</h1></div>
+    <div id="statePill" class="pill" role="status" aria-live="polite">Ready</div>
+  </header>
+
+  <div id="keyAlert" class="keyalert hidden" role="alert"></div>
+  <div id="alertBanner" class="alert hidden" role="alert" aria-live="assertive"></div>
+
+  <main id="main">
+    <section id="home" class="home">
+      <h2 class="hi">Hello!</h2>
+      <p class="ask">I'm ready to help you.<br>What would you like to know?</p>
+      <div class="tiles">
+        <button class="tile" data-go="camera"><b>📷</b>View Camera<small>What's ahead</small></button>
+        <button class="tile" data-go="gpsCard"><b>📍</b>My Location<small>GPS &amp; map</small></button>
+        <button class="tile" data-go="sensorCard"><b>📡</b>Sensor Status<small>Distance &amp; obstacles</small></button>
+        <button class="tile" data-go="mic"><b>🎙️</b>Voice Command<small>Hands-free control</small></button>
+      </div>
+      <p class="okbar"><i></i> All systems OK</p>
+      <p class="disclaimer" role="note"><strong>Prototype:</strong> This is not a certified mobility aid. The app never says the path is safe.</p>
+    </section>
+
+    <section class="actions" aria-label="Main buttons">
+      <button id="btnStart" class="big primary">▶ Start Assistance</button>
+      <button id="btnMic" class="big mic" aria-pressed="false" aria-label="Microphone, speak a command"><span class="ico" aria-hidden="true">🎤</span><span id="micLabel">Tap to speak</span></button>
+      <button id="btnStop" class="big danger" disabled>■ Stop Assistance</button>
+    </section>
+    <p id="micNote" class="note"></p>
+
+    <section class="card" id="camCard" aria-labelledby="camH">
+      <h2 id="camH">Camera View</h2>
+      <div class="video-wrap">
+        <video id="video" playsinline muted aria-label="Live camera"></video>
+        <canvas id="overlay" aria-hidden="true"></canvas>
+        <div id="videoOff" class="video-off">Camera is off</div>
+      </div>
+      <div class="row">
+        <button id="btnCamToggle" class="btn">Turn camera on</button>
+        <button id="btnWhatsAhead" class="btn">What's ahead?</button>
+        <button id="btnDescribe" class="btn">Detailed view (online AI)</button>
+      </div>
+      <h3>Detected objects</h3>
+      <p id="detectStatus" class="note" aria-live="polite">Camera is off.</p>
+      <ul id="detectList" class="chips"></ul>
+      <p id="sceneText" class="scene" aria-live="polite"></p>
+    </section>
+
+    <section class="card" id="sensorCard" aria-labelledby="obsH">
+      <h2 id="obsH">Sensor Status</h2>
+      <div class="obs">
+        <div id="distance" class="dist">-- cm</div>
+        <div><div id="obsLevel" class="level">Sensor unavailable</div><div id="obsSource" class="src sim">Simulation Mode</div></div>
+      </div>
+      <p id="obsStatus" class="note"></p>
+      <div class="range" aria-hidden="true"><i id="rangeDot"></i></div>
+      <div class="range-l" aria-hidden="true"><span>0</span><span>1 m</span><span>2 m</span><span>3 m</span><span>4 m</span><span>5 m</span></div>
+      <div class="sim-box">
+        <label for="slider">Simulated distance: <output id="sliderOut">400</output> cm</label>
+        <input id="slider" type="range" min="20" max="500" step="1" value="400">
+        <div class="row"><button class="btn sim-btn" data-cm="200">200</button><button class="btn sim-btn" data-cm="100">100</button><button class="btn sim-btn" data-cm="60">60</button><button class="btn sim-btn" data-cm="30">30</button></div>
+      </div>
+      <div class="row"><button id="btnBle" class="btn">Connect Bluetooth sensor</button><button id="btnSimMode" class="btn">Simulation Mode</button></div>
+      <p id="bleNote" class="note"></p>
+    </section>
+
+    <section class="card" id="gpsCard" aria-labelledby="gpsH">
+      <h2 id="gpsH">My Location</h2>
+      <dl class="kv">
+        <div><dt>Latitude</dt><dd id="lat">--</dd></div><div><dt>Longitude</dt><dd id="lon">--</dd></div>
+        <div><dt>Accuracy</dt><dd id="acc">--</dd></div><div><dt>Heading</dt><dd id="hdg">--</dd></div><div><dt>Speed</dt><dd id="spd">--</dd></div>
+      </dl>
+      <p id="gpsStatus" class="note" aria-live="polite">Location is off.</p>
+      <div class="row"><button id="btnGps" class="btn">Turn location on</button><button id="btnSayLoc" class="btn">Tell my location</button><a id="btnMap" class="btn disabled" href="#" target="_blank" rel="noopener">View on map</a></div>
+    </section>
+
+    <section class="card" id="connCard" aria-labelledby="stH">
+      <h2 id="stH">Settings</h2>
+      <div class="status-grid">
+        <div class="chip" id="chipNet">Internet</div><div class="chip" id="chipBle">Sensor</div><div class="chip" id="chipCam">Camera</div>
+        <div class="chip" id="chipGps">GPS</div><div class="chip" id="chipVoice">Voice</div><div class="chip" id="chipOut">Output</div>
+      </div>
+      <p id="fallbackMsg" class="note" aria-live="polite"></p>
+      <div class="row"><a class="btn" href="tests.html">Testing Panel</a></div>
+    </section>
+
+    <section class="card" id="cmdCard">
+      <h2>Voice Assistant</h2>
+      <p class="note">Example commands (tap the mic for each command):</p>
+      <ul class="cmds"><li>"My location"</li><li>"Camera on"</li><li>"What's ahead?"</li><li>"Start navigation"</li><li>"Be quiet"</li><li>"Stop assistance"</li></ul>
+      <p id="heard" class="note" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <nav id="menuBar" class="menubar" aria-label="Menu">
+    <button data-target="home"><b>🏠</b><span>Home</span></button>
+    <button data-target="camToggle"><b>📷</b><span>Camera</span></button>
+    <button data-target="gpsCard" aria-pressed="false"><b>📍</b><span>Location</span></button>
+    <button data-target="sensorCard" aria-pressed="false"><b>📡</b><span>Sensor</span></button>
+    <button data-target="connCard" aria-pressed="false"><b>⚙️</b><span>Settings</span></button>
+  </nav>
+
+  <script>
+    // Works even if js/app.js fails: closes the splash and reports what went wrong.
+    document.getElementById('btnSplash').addEventListener('click', function () { document.getElementById('splash').classList.add('gone'); });
+    function showLoadError(msg) {
+      var k = document.getElementById('keyAlert');
+      k.innerHTML = '\u26A0\uFE0F ' + msg + '<small>Open the browser console (F12) for details.</small>';
+      k.classList.remove('hidden'); document.getElementById('splash').classList.add('gone');
+    }
+    window.addEventListener('error', function (e) { if (!window.__saathiLoaded) showLoadError('App error: ' + (e.message || 'script failed to load')); });
+    setTimeout(function () { if (!window.__saathiLoaded) showLoadError('The app script (js/app.js) did not load. Check that the js folder was uploaded to the frontend repo and hard refresh.'); }, 4000);
+  </script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
