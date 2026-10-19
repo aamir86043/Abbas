@@ -1,0 +1,47 @@
+/* Light theme matching the Saathi AI mockup */
+:root{--bg:#eaf1fb;--bg2:#f1f6fd;--card:#fff;--line:#d5e2f5;--text:#10233f;--muted:#5d7391;--navy:#0b3a8f;--blue:#1f6bff}
+body{background:linear-gradient(#eef4fc,#e3edfa) fixed;color:var(--text);font-family:"Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.eye{width:44px;height:34px}.eye.sm{width:34px;height:26px}
+.brand{display:flex;align-items:center;gap:10px}h1{color:var(--navy)}
+.pill{background:#dff7e8;border:0;color:#0d7a3c}
+body[data-state=detecting] .pill{background:#dff7e8;color:#0d7a3c}
+body[data-state=listening] .pill{background:var(--blue);color:#fff}
+body[data-state=warning] .pill{background:#ffe2b3;color:#6a3d00}body[data-state=critical] .pill{background:#ff3b3b;color:#fff}
+body[data-state=sensor-off] .pill{background:#fff0c9;color:#6a4b00}body[data-state=offline] .pill{background:#e3e7ee;color:#444}
+.card,.tile,.chip,.btn,.sim-box{background:#fff;color:var(--text);border:1px solid var(--line);box-shadow:0 6px 18px rgba(20,60,130,.08)}
+.card{border-radius:24px;backdrop-filter:none}.btn{border-width:1px;color:var(--navy)}.btn:active{background:#dbe8ff}
+.note,.why,.kv dt,.range-l{color:var(--muted)}h3{color:var(--muted)}
+.chips li{background:#e7fbf0;border:1px solid #9fe0bb;color:#0d5a30}
+.disclaimer{background:#fff7e6;border:1px solid #f3cf8f;color:#6a4b00;font-size:.78rem;margin:12px 0}
+a{color:var(--blue)}.chip.ok{border-color:#5fd08f}.chip.bad{border-color:#f0b35a}
+/* splash */
+#splash{position:fixed;inset:0;z-index:100;background:linear-gradient(#f4f8fe,#dbe8fa);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:6px}
+#splash.gone{display:none}#splash .eye{width:96px;height:72px}#splash h1{font-size:2.4rem;margin:4px 0}
+#splash .hero{font-size:1.5rem;font-weight:800;margin:6px 0}#splash .sub,#splash .lang{color:var(--muted);font-size:.85rem}
+#splash .big{width:min(320px,90%);margin-top:18px}
+/* home */
+.home h2.hi{margin:12px 0 0;font-size:1.6rem}.ask{margin:4px 0 14px;font-weight:700}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{border-radius:22px;padding:18px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:1rem;font-weight:800;cursor:pointer;font-family:inherit}
+.tile b{font-size:2rem}.tile small{font-weight:500;color:var(--muted);font-size:.72rem}
+.okbar{background:#e7fbf0;color:#0d5a30;border-radius:14px;padding:10px 14px;font-weight:700;font-size:.9rem}
+.okbar i{display:inline-block;width:10px;height:10px;border-radius:50%;background:#2fd27a;margin-right:6px}
+.actions{margin-top:14px}
+.big.primary{background:var(--navy);box-shadow:0 8px 20px rgba(11,58,143,.3)}
+.big.mic{background:#fff;color:var(--navy);border:1px solid var(--line);box-shadow:0 6px 18px rgba(20,60,130,.1)}
+.big.mic.on{background:var(--blue);color:#fff}.big.danger{background:#ffe4e4;color:#b42020;border:0}
+/* one screen at a time */
+body:not(.cam-mode) main>.card{display:none}body:not(.cam-mode) main>.card.open{display:block}
+main:has(>.card.open)>.home{display:none}
+body:not(.cam-mode) main:has(>.card.open)>.actions,body:not(.cam-mode) main:has(>.card.open)~#micNote{display:none}
+body.cam-mode .home,body.cam-mode #keyAlert{display:none}
+.menubar{background:#fff;border-top:1px solid var(--line)}.menubar button{color:var(--muted)}
+.menubar button[aria-pressed=true]{background:#e6efff;color:var(--navy)}
+/* camera screen */
+body.cam-mode #detectStatus{background:rgba(255,255,255,.9);color:var(--text)}
+body.cam-mode #detectList li{background:rgba(255,255,255,.92)}
+body.cam-mode #sceneText{background:#fff;color:var(--text);border-radius:20px;padding:14px 16px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+body.cam-mode main>.card.open{background:#fff}
+/* API key error */
+.keyalert{margin:10px 0;padding:14px 16px;border-radius:16px;background:#ffe4e4;border:2px solid #ff3b3b;color:#8a1010;font-weight:800;line-height:1.4}
+.keyalert small{display:block;font-weight:500;margin-top:4px}
